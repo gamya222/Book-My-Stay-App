@@ -1,32 +1,50 @@
 /**
  * ============================================================
- * MAIN CLASS - UseCase8BookingHistoryReport
+ * MAIN CLASS - UseCase9ErrorHandlingValidation
  * ============================================================
  *
- * Use Case 8: Booking History & Reporting
+ * Use Case 9: Error Handling & Validation
  *
  * Description:
- * This class demonstrates how
- * confirmed bookings are stored
- * and reported.
+ * This class demonstrates how user input
+ * is validated before booking is processed.
  *
- * The system maintains an ordered
- * audit trail of reservations.
+ * The system:
+ * - Accepts user input
+ * - Validates input centrally
+ * - Handles errors gracefully
  *
- * @version 8.0
+ * @version 9.0
  */
+
+import java.util.Scanner;
+
 public class BookMyStayApp {
     public static void main(String[] args) {
+        System.out.println("Booking Validation");
 
-        System.out.println("Booking History and Reporting\n");
+        Scanner scanner = new Scanner(System.in);
+        RoomInventory inventory = new RoomInventory();
+        ReservationValidator validator = new ReservationValidator();
+        BookingRequestQueue bookingQueue = new BookingRequestQueue();
 
-        BookingHistory history = new BookingHistory();
-        history.addReservation(new Reservation("Abhi", "Single"));
-        history.addReservation(new Reservation("Subha", "Double"));
-        history.addReservation(new Reservation("Vanmathi", "Suite"));
+        try {
+            System.out.print("Enter guest name: ");
+            String guestName = scanner.nextLine();
 
-        BookingReportService reportService = new BookingReportService();
+            System.out.print("Enter room type (Single/Double/Suite): ");
+            String roomType = scanner.nextLine();
+            validator.validate(guestName, roomType, inventory);
+            bookingQueue.addRequest(new Reservation(guestName, roomType));
 
-        reportService.generateReport(history);
+            System.out.println("Booking request accepted.");
+
+        } catch (InvalidBookingException e) {
+            System.out.println("Booking failed: " + e.getMessage());
+
+        } finally {
+
+            scanner.close();
+        }
     }
 }
