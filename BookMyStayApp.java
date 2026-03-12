@@ -1,34 +1,43 @@
 /**
  * ============================================================
- * MAIN CLASS - UseCase1HotelBookingApp
+ * MAIN CLASS - UseCase2RoomInitialization
  * ============================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 2: Basic Room Types & Static Availability
  *
  * Description:
- * This class represents the entry point of the
- * Hotel Booking Management System.
+ * This class demonstrates room initialization
+ * using domain models before introducing
+ * centralized inventory management.
  *
- * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message to the user
- * - Confirms that the system has started successfully
+ * Availability is represented using
+ * simple variables to highlight limitations.
  *
- * No business logic, data structures, or user input
- * is implemented in this use case.
- *
- * The goal is to establish a clear and predictable
- * application startup point.
- *
- * @author gamya222
- * @version 1.0
+ * @version 2.1
  */
 
 public class BookMyStayApp {
     public static void main(String[] args) {
+        SingleRoom singleRoom = new SingleRoom();
+        DoubleRoom doubleRoom = new DoubleRoom();
+        SuiteRoom suiteRoom = new SuiteRoom();
 
-        System.out.println("Welcome to the Hotel Booking Management System");
-        System.out.println("System initialized successfully.");
+        int singleAvailable = 5;
+        int doubleAvailable = 3;
+        int suiteAvailable = 2;
 
+        System.out.println("Hotel Room Initialization\n");
+
+        System.out.println("Single Room:");
+        singleRoom.displayRoomDetails();
+        System.out.println("Available: " + singleAvailable + "\n");
+
+        System.out.println("Double Room:");
+        doubleRoom.displayRoomDetails();
+        System.out.println("Available: " + doubleAvailable + "\n");
+
+        System.out.println("Suite Room:");
+        suiteRoom.displayRoomDetails();
+        System.out.println("Available: " + suiteAvailable);
     }
 }
