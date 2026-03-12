@@ -1,36 +1,44 @@
 /**
  * ============================================================
- * MAIN CLASS - UseCase4RoomSearch
+ * MAIN CLASS - UseCase5BookingRequestQueue
  * ============================================================
  *
- * Use Case 4: Room Search & Availability Check
+ * Use Case 5: Booking Request (First-Come-First-Served)
  *
  * Description:
- * This class demonstrates how guests
- * can view available rooms without
- * modifying inventory data.
+ * This class demonstrates how booking
+ * requests are accepted and queued
+ * in a fair and predictable order.
  *
- * The system enforces read-only access
- * by design and usage discipline.
+ * No room allocation or inventory
+ * update is performed here.
  *
- * @version 4.0
+ * @version 5.0
  */
+
 public class BookMyStayApp {
     public static void main(String[] args) {
+        System.out.println("Booking Request Queue");
 
-        RoomInventory inventory = new RoomInventory();
+        BookingRequestQueue bookingQueue = new BookingRequestQueue();
 
-        SingleRoom singleRoom = new SingleRoom();
-        DoubleRoom doubleRoom = new DoubleRoom();
-        SuiteRoom suiteRoom = new SuiteRoom();
+        Reservation r1 = new Reservation("Abhi", "Single");
+        Reservation r2 = new Reservation("Subha", "Double");
+        Reservation r3 = new Reservation("Vanmathi", "Suite");
 
-        RoomSearchService searchService = new RoomSearchService();
+        bookingQueue.addRequest(r1);
+        bookingQueue.addRequest(r2);
+        bookingQueue.addRequest(r3);
+        while (bookingQueue.hasPendingRequests()) {
 
-        searchService.searchAvailableRooms(
-                inventory,
-                singleRoom,
-                doubleRoom,
-                suiteRoom
-        );
+            Reservation next = bookingQueue.getNextRequest();
+
+            System.out.println(
+                    "Processing booking for Guest: "
+                            + next.getGuestName()
+                            + ", Room Type: "
+                            + next.getRoomType()
+            );
+        }
     }
 }
