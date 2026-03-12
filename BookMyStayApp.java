@@ -1,44 +1,35 @@
 /**
  * ============================================================
- * MAIN CLASS - UseCase5BookingRequestQueue
+ * MAIN CLASS - UseCase7AddOnServiceSelection
  * ============================================================
  *
- * Use Case 5: Booking Request (First-Come-First-Served)
+ * Use Case 7: Add-On Service Selection
  *
  * Description:
- * This class demonstrates how booking
- * requests are accepted and queued
- * in a fair and predictable order.
+ * This class demonstrates how optional
+ * services can be attached to a confirmed
+ * booking.
  *
- * No room allocation or inventory
- * update is performed here.
+ * Services are added after room allocation
+ * and do not affect inventory.
  *
- * @version 5.0
+ * @version 7.0
  */
 
 public class BookMyStayApp {
     public static void main(String[] args) {
-        System.out.println("Booking Request Queue");
 
-        BookingRequestQueue bookingQueue = new BookingRequestQueue();
+        System.out.println("Add-On Service Selection\n");
+        String reservationId = "Single-1";
 
-        Reservation r1 = new Reservation("Abhi", "Single");
-        Reservation r2 = new Reservation("Subha", "Double");
-        Reservation r3 = new Reservation("Vanmathi", "Suite");
+        AddOnServiceManager manager = new AddOnServiceManager();
+        Service breakfast = new Service("Breakfast", 500);
+        Service spa = new Service("Spa", 1000);
+        manager.addService(reservationId, breakfast);
+        manager.addService(reservationId, spa);
+        double totalCost = manager.calculateTotalServiceCost(reservationId);
 
-        bookingQueue.addRequest(r1);
-        bookingQueue.addRequest(r2);
-        bookingQueue.addRequest(r3);
-        while (bookingQueue.hasPendingRequests()) {
-
-            Reservation next = bookingQueue.getNextRequest();
-
-            System.out.println(
-                    "Processing booking for Guest: "
-                            + next.getGuestName()
-                            + ", Room Type: "
-                            + next.getRoomType()
-            );
-        }
+        System.out.println("Reservation ID: " + reservationId);
+        System.out.println("Total Add-On Cost: " + totalCost);
     }
 }
